@@ -9,9 +9,10 @@ Resources are as follows:
 1. https://en.wikipedia.org/wiki/Volume_rendering
 2. https://blog.kitware.com/volume-rendering-improvements-in-vtk/
 
-#### GUI in TKinter
-1. https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBwibXFtPtflztSNPGuIB_d
+#### Resources used:
+1. Learning Tkinter : https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBwibXFtPtflztSNPGuIB_d
+2. VTK + Tkinter : https://www.evl.uic.edu/aspale/cs526/final/2-2-2.htm
 
-#### Sfotware Versions
+#### Software Versions
 1. Python 2.7
 2. vtk 5.10.1 (The latest versions donot have good support for Tkinter)
