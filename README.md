@@ -11,3 +11,7 @@ Resources are as follows:
 
 #### GUI in TKinter
 1. https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBwibXFtPtflztSNPGuIB_d
+
+#### Sfotware Versions
+1. Python 2.7
+2. vtk 5.10.1 (The latest versions donot have good support for Tkinter)
