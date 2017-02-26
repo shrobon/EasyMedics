@@ -1,3 +1,6 @@
+#__Author__ : Shrobon
+#__Description__ : CubeSource example with Tkinter --> Just for testing purpose
+
 from Tkinter import *
 import sys
 import vtk
