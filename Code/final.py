@@ -8,6 +8,7 @@ else:
 import vtk
 from vtk.tk.vtkTkRenderWindowInteractor import vtkTkRenderWindowInteractor
 from tkFileDialog import *
+from tkMessageBox import *
 from guifunctions import * #Contains all the event functions code
 
 ########## Global Variables ###############
@@ -52,10 +53,15 @@ filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
 filemenu.add_separator()
 
 ### Exit Option
-filemenu.add_command(label= "Exit" , command = root.quit)
+filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
 ##############################################################
 
-renWinInteract = vtkTkRenderWindowInteractor(root,rw=renWindow, width=600, height=600)                   
+
+
+
+
+
+renWinInteract = vtkTkRenderWindowInteractor(root,rw=renWindow, width=800, height=800)                   
 renWinInteract.Initialize()
 renWinInteract.pack(side='top', fill='both', expand=1)
 renWindow.Render()

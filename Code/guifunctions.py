@@ -1,6 +1,7 @@
 import sys
 from vtk.tk.vtkTkRenderWindowInteractor import vtkTkRenderWindowInteractor
 from tkFileDialog import *
+from tkMessageBox import *
 import vtk
 def OpenFile():
     # To open a file
@@ -37,3 +38,9 @@ def WriteAsJPEG(filename,rendering_window):
     jpegWriter.SetInputConnection(win2img.GetOutputPort())
     jpegWriter.Write()
 
+def Quit(root):
+    answer = askquestion("Quit","Are you Sure ? Please Save your work",icon='warning')
+    if answer == 'yes':
+        root.quit()
+    else:
+        pass
