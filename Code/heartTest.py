@@ -1,5 +1,5 @@
 import vtk
-dataset_directory = r"../Examples/CT"
+dataset_directory = r"..\Examples\CT"
 # Read data
 reader = vtk.vtkDICOMImageReader()
 reader.SetDirectoryName(dataset_directory)

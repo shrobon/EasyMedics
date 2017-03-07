@@ -35,7 +35,7 @@ renWin.SetSize(800,800)
 
 # Define volume mapper
 volumeMapper = vtk.vtkSmartVolumeMapper()  
-volumeMapper.SetInputConnection(reader.GetOutputPort())
+volumeMapper.SetInput(reader.GetOutput())
 
 # Define volume properties
 volumeProperty = vtk.vtkVolumeProperty()

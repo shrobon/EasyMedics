@@ -39,6 +39,7 @@ actor = vtk.vtkActor()
 
 mapper.SetInputConnection(cube.GetOutputPort())
 actor.SetMapper(mapper)
+#
 render = vtk.vtkRenderer()
 #render.SetBackground(val,val,val)
 render.AddActor(actor)
@@ -55,7 +56,8 @@ renWinInteract.pack(side='top', fill='both', expand=1)
 def change_background(num):
     val = float("{0:.2f}".format(slider.get()/255))
     label.config(text=str(val))
-    render.SetBackground(val,val,val)
+    #render.SetBackground(val,val,val)
+    actor.GetProperty().SetColor(val,0,val)
     renWindow.Render()
 
 #Slider to change the background colour of the renderer
