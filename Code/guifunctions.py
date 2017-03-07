@@ -2,6 +2,7 @@ import sys
 from vtk.tk.vtkTkRenderWindowInteractor import vtkTkRenderWindowInteractor
 from tkFileDialog import *
 from tkMessageBox import *
+from tkColorChooser import askcolor
 import vtk
 def OpenFile():
     # To open a file
@@ -44,3 +45,19 @@ def Quit(root):
         root.quit()
     else:
         pass
+
+
+def BgColor(render,renWindow):
+    #user input to choose color of background
+    color = askcolor(color="#6B7722",title="Background Color")
+    #fetching the rgb color tuple and mapping it in range 0-1
+    color = color[0]
+    (r,g,b) = color # RGB tuple 
+    r = r / 255
+    g = g / 255
+    b = b / 255
+    # changing color of background
+    render.SetBackground(r,b,g)
+    renWindow.Render()
+    print color
+    sys.stdout.flush()

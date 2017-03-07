@@ -9,6 +9,7 @@ import vtk
 from vtk.tk.vtkTkRenderWindowInteractor import vtkTkRenderWindowInteractor
 from tkFileDialog import *
 from tkMessageBox import *
+from tkColorChooser import askcolor
 from guifunctions import * #Contains all the event functions code
 
 ########## Global Variables ###############
@@ -57,13 +58,27 @@ filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
 ##############################################################
 
 
+############# Interaction Controls ########################
+leftFrame = Frame(root)
+leftFrame.pack(side=LEFT,expand=1)
+
+### Choosing Background Color :: Button
+bgColor = Button(leftFrame,text="Background Colour", bg="orange",command= lambda:BgColor(render,renWindow))
+bgColor.grid(row=0,column=0,sticky=W,pady = 10, padx = 10)
+
+fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen")
+fgColor.grid(row=0,column=1,sticky=E,pady = 10, padx = 10)
+#######################################################
+
+
+
 
 
 
 
 renWinInteract = vtkTkRenderWindowInteractor(root,rw=renWindow, width=800, height=800)                   
 renWinInteract.Initialize()
-renWinInteract.pack(side='top', fill='both', expand=1)
+renWinInteract.pack( fill='both', expand=1)
 renWindow.Render()
 ######################################################
 
