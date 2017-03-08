@@ -65,14 +65,9 @@ leftFrame.pack(side=LEFT,expand=1)
 bgColor = Button(leftFrame,text="Background Colour", bg="orange",command= lambda:BgColor(render,renWindow))
 bgColor.grid(row=0,column=0,sticky=W,pady = 10, padx = 10)
 
-fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen")
+fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen", command= lambda:FgColor(actor,renWindow))
 fgColor.grid(row=0,column=1,sticky=E,pady = 10, padx = 10)
 #######################################################
-
-
-
-
-
 
 
 renWinInteract = vtkTkRenderWindowInteractor(root,rw=renWindow, width=800, height=800)                   

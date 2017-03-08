@@ -67,3 +67,20 @@ def BgColor(render,renWindow):
     renWindow.Render()
     print color
     sys.stdout.flush()
+
+def FgColor(actor,renWindow):
+    #user input to choose color of background
+    color = askcolor(color="#6B7722",title="Foreground Color")
+    #fetching the rgb color tuple and mapping it in range 0-1
+    color = color[0]
+    (r,g,b) = color # RGB tuple 
+    r = float("{0:.2f}".format(r/255))
+    g = float("{0:.2f}".format(g/255))
+    b = float("{0:.2f}".format(b/255))
+
+
+    # changing color of background
+    actor.GetProperty().SetColor(r,g,b)
+    renWindow.Render()
+    print color
+    sys.stdout.flush()
