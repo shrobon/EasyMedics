@@ -28,6 +28,7 @@ renWinInteract = None
 
 
 root = Tk()
+v = IntVar() # keeps the state of the radiobuttons
 root.title("EASY MEDICS (Medical Visualizations made Easy)")
 ######## MENUBAR SECTION ####################################
 menu = Menu(root)
@@ -43,7 +44,9 @@ def OpenFile():
     print file
     #To flush out the print output buffers
     sys.stdout.flush() 
-    check()
+    selected_radio_value = v.get()
+    if selected_radio_value == 1: #Radio CUBE-Source
+        check() # Open the vtk-cube source program 
 
 filemenu.add_command(label="Open File",command = lambda: OpenFile())
 ######## Open Folder
@@ -62,6 +65,30 @@ filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
 leftFrame = Frame(root)
 leftFrame.pack(side=LEFT,expand=1)
 
+### Radio Buttons for selecting the type of project 
+
+projects = [
+    ("Cube Source",1),
+    ("STL / BYU",2),
+    ("Volume Rendering",3)
+]
+
+def CheckRadioChoice():
+    print v.get() #displays the users radio button choice
+    sys.stdout.flush()
+
+
+row = 0
+for text,val in projects:
+    x = Radiobutton(leftFrame,
+    text=text,
+    padx = 20,
+    variable = v,
+    command=CheckRadioChoice,
+    value= val)
+    x.grid(row=row,column=0)
+    row = row + 1
+##################################################
 
 
 def check():
@@ -81,11 +108,11 @@ def check():
 
         ### Choosing Background Color :: Button
         bgColor = Button(leftFrame,text="Background Colour", bg="orange",command= lambda:BgColor(render,renWindow))
-        bgColor.grid(row=0,column=0,sticky=W,pady = 10, padx = 10)
+        bgColor.grid(row=row,column=0,sticky=W,pady = 10, padx = 10)
 
         fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen", command= lambda:FgColor(actor,renWindow))
-        fgColor.grid(row=0,column=1,sticky=E,pady = 10, padx = 10)
-        root.update()
+        fgColor.grid(row=row,column=1,sticky=E,pady = 10, padx = 10)
+        #root.update()
         #######################################################
         ######################################################
     else: 
