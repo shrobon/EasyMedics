@@ -73,7 +73,7 @@ fgColor.grid(row=0,column=1,sticky=E,pady = 10, padx = 10)
 renWinInteract = vtkTkRenderWindowInteractor(root,rw=renWindow, width=800, height=800)                   
 renWinInteract.Initialize()
 renWinInteract.pack( fill='both', expand=1)
-renWindow.Render()
+#renWindow.Render()
 ######################################################
 
 renWinInteract.Start()
