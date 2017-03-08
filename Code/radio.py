@@ -31,5 +31,6 @@ for txt, val in languages:
                 variable=v, 
                 command=ShowChoice,
                 value=val).pack(anchor=W)
-
+print v.get()
+sys.stdout.flush()
 mainloop()

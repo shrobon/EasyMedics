@@ -25,28 +25,37 @@ renWindow = None
 renWinInteract = None 
 
 ############################################
-
-
 root = Tk()
 v = IntVar() # keeps the state of the radiobuttons
 root.title("EASY MEDICS (Medical Visualizations made Easy)")
+
+
+
+
 ######## MENUBAR SECTION ####################################
 menu = Menu(root)
 root.config(menu=menu)
 filemenu = Menu(menu)
 menu.add_cascade(label="File",menu=filemenu)
 ### File Menu 
+
 ######## Open File
 def OpenFile():
-    # To open a file
+    # This function is triggered when the user chooses to Open a file 
     global file 
     file = askopenfilename()
     print file
     #To flush out the print output buffers
     sys.stdout.flush() 
     selected_radio_value = v.get()
-    if selected_radio_value == 1: #Radio CUBE-Source
+    if selected_radio_value == 0:
+        # Nothing has beeen selected yet
+        # Alert the user to select some radio-button
+        showerror("Error", "Error: Select a radio button first, and then try again ..")
+    elif selected_radio_value == 1: #Radio CUBE-Source
         check() # Open the vtk-cube source program 
+    else:
+        pass
 
 filemenu.add_command(label="Open File",command = lambda: OpenFile())
 ######## Open Folder
