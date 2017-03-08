@@ -5,3 +5,6 @@
 5. Experimenting with filetypes :: using teapot stl
     select reader based on the filetype
 6. 
+
+Notes: 
+- If folder is selected let us assume Volume Rendering (Later use RadioButtons)

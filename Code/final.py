@@ -1,3 +1,4 @@
+from __future__ import division
 import sys
 if sys.hexversion < 0x03000000:
     # for Python2
@@ -12,6 +13,7 @@ from tkMessageBox import *
 from tkColorChooser import askcolor
 from guifunctions import * #Contains all the event functions code
 
+
 ########## Global Variables ###############
 file  = None  # contains the filename selected by the user
 directory = None # contains the path to dataset , selected by user 
@@ -19,7 +21,7 @@ saveFileName = None  # user-given name to save the VTK produced output with JPEG
 ############################################
 
 
-
+root = Tk()
 cube = vtk.vtkCubeSource()
 cube.Modified()
 mapper = vtk.vtkPolyDataMapper()
@@ -34,9 +36,6 @@ renWindow = vtk.vtkRenderWindow()
 renWindow.AddRenderer(render)
 
 
-
-
-root = Tk()
 root.title("EASY MEDICS (Medical Visualizations made Easy)")
 ######## MENUBAR SECTION ####################################
 menu = Menu(root)
