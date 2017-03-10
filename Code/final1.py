@@ -160,19 +160,35 @@ def TissueColor(partNumber,colorFunc,renWindow):
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
 
+def DeleteColorFunction(part):
+    if part == -999:
+        pass
+
 def HeartDisplay():
     if file !="":
         volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
         v= StringVar()
         v.set("-999")
         ### Choosing a Tissue Number 
-        Tissue = Entry(leftFrame,text="int",textvariable=v)
+        Tissue = Entry(leftFrame,textvariable=v)
         Tissue.grid(row=row,column=0,sticky=W,pady=10,padx=10)
         
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
         tissueColor = Button(leftFrame,text="Tissue Colour", bg="orange",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
+        
+        #row = row + 1
+
+        v1= StringVar()
+        v1.set("-999")
+        
+        delete_part = Entry(leftFrame,textvariable=v1)
+        delete_part.grid(row=row+1,column=0,sticky=W,pady=10,padx=10)
+
+        delete_color = Button(leftFrame,text="Remove Colour",command=lambda: DeleteColorFunction(int(v1.get())))
+        delete_color.grid(row=row+1,column=1,sticky=W,pady=10,padx=10)
+
         '''
         colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
         colorFunc.AddRGBPoint(-77, 0.54902, 0.25098, 0.14902)
