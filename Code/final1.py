@@ -215,7 +215,7 @@ def HeartDisplay():
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
-        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),int(opacity_slider.get()),colorFunc,alphaChannelFunc,renWindow))
+        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),opacity_slider.get(),colorFunc,alphaChannelFunc,renWindow))
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
         
         ### row = row + 1
