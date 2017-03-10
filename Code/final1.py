@@ -131,6 +131,8 @@ def CubeDisplay():
         fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen", command= lambda:FgColor(actor,renWindow))
         fgColor.grid(row=row,column=1,sticky=E,pady = 10, padx = 10)
 
+
+
         #Save Output Option
         filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
         filemenu.add_separator()
@@ -140,7 +142,7 @@ def CubeDisplay():
 
 
 
-def TissueColor(partNumber,colorFunc,renWindow):
+def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
     # This is a colout picker for tissue
     partNumber = int(partNumber)
     print partNumber
@@ -149,7 +151,7 @@ def TissueColor(partNumber,colorFunc,renWindow):
     if partNumber != -999:
         color = askcolor(color="#6B7722",title="Foreground Color")
         color = color[0]
-        (r,g,b) = color # RGB tuple 
+        (r,g,b) = color # RGB tuple
         r = float("{0:.2f}".format(r/255))
         g = float("{0:.2f}".format(g/255))
         b = float("{0:.2f}".format(b/255))
@@ -206,11 +208,14 @@ def HeartDisplay():
         Tissue = Entry(leftFrame,textvariable=v)
         Tissue.grid(row=row,column=0,sticky=W,pady=10,padx=10)
         
-
+        #Slider for setting opacity
+        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
+        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL)
+        opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
-        tissueColor = Button(leftFrame,text="Colour", bg="orange")
+        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),int(opacity_slider.get()),colorFunc,alphaChannelFunc,renWindow))
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
         
         ### row = row + 1
@@ -225,12 +230,11 @@ def HeartDisplay():
         
         sliderVal.set(100)
         
-        #Slider for setting opacity
-        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
-        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL)
-        opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
 
-        Button(text="ADD",bg="red",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
+
+        #btn = Button(text="ADD",bg="red",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
+        #btn.grid(row=row,column=4,sticky=W,pady = 10, padx = 10)
+
 
         '''
         colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
