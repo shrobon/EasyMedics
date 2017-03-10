@@ -30,11 +30,11 @@ def SaveOutput(renWindow):
     sys.stdout.flush()
     WriteAsJPEG(saveFileName,renWindow)
 
-def WriteAsJPEG(filename,rendering_window):
+def WriteAsJPEG(filename,renderingWindow):
 
     ##### Section for the JPEG Writer ####################
     win2img = vtk.vtkWindowToImageFilter()
-    win2img.SetInput(rendering_window)
+    win2img.SetInput(renderingWindow)
     #win2img.SetMagnification(2)
     win2img.Update()
 
@@ -85,3 +85,6 @@ def FgColor(actor,renWindow):
     renWindow.Render()
     print color
     sys.stdout.flush()
+
+def TissueColor(render,renWindow):
+    pass 

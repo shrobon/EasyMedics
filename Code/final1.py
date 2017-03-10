@@ -12,7 +12,8 @@ from tkFileDialog import *
 from tkMessageBox import *
 from tkColorChooser import askcolor
 from guifunctions import * #Contains all the event functions code
-import cube 
+import cube
+import heart
 
 ########## Global Variables ###############
 file  = ""  # contains the filename selected by the user
@@ -53,20 +54,23 @@ def OpenFile():
         # Alert the user to select some radio-button
         showerror("Error", "Error: Select a radio button first, and then try again ..")
     elif selected_radio_value == 1: #Radio CUBE-Source
-        check() # Open the vtk-cube source program 
+        CubeDisplay() # Open the vtk-cube source program 
+    elif selected_radio_value == 2:
+        HeartDisplay()
     else:
         pass
+        
 
 filemenu.add_command(label="Open File",command = lambda: OpenFile())
 ######## Open Folder
 filemenu.add_command(label="Open Folder",command= OpenFolder)
 filemenu.add_separator()
 ######## Save Options
-filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
-filemenu.add_separator()
+#filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+#filemenu.add_separator()
 
 ### Exit Option
-filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
+#filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
 ##############################################################
 
 
@@ -78,8 +82,8 @@ leftFrame.pack(side=LEFT,expand=1)
 
 projects = [
     ("Cube Source",1),
-    ("STL / BYU",2),
-    ("Volume Rendering",3)
+    ("Volume Rendering",2),
+    ("STL / BYU",3)
 ]
 
 def CheckRadioChoice():
@@ -95,15 +99,15 @@ for text,val in projects:
     variable = v,
     command=CheckRadioChoice,
     value= val)
-    x.grid(row=row,column=0)
+    x.grid(row=row,column=0,sticky=W)
     row = row + 1
 ##################################################
 
 
-def check():
+def CubeDisplay():
     if file != "":
-        print "Entered "
-        sys.stdout.flush()
+        #print "Entered "
+        #sys.stdout.flush()
         #means that file or directory has been selected and we can display
         #global actor
         #global render
@@ -121,13 +125,65 @@ def check():
 
         fgColor = Button(leftFrame,text="Foreground Colour", fg="orange", bg="darkgreen", command= lambda:FgColor(actor,renWindow))
         fgColor.grid(row=row,column=1,sticky=E,pady = 10, padx = 10)
+
+        #Save Output Option
+        filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+        filemenu.add_separator()
         #root.update()
         #######################################################
         ######################################################
     else: 
         print "Bleh"
         sys.stdout.flush()
-root.after(1000,check)
+
+
+def HeartDisplay():
+    if file !="":
+        volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
+        
+        colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
+        colorFunc.AddRGBPoint(-77, 0.54902, 0.25098, 0.14902)
+        colorFunc.AddRGBPoint(94, 0.882353, 0.603922, 0.290196)
+        colorFunc.AddRGBPoint(179, 1, 0.937033, 0.954531)
+        colorFunc.AddRGBPoint(260, 0.615686, 0, 0)
+        colorFunc.AddRGBPoint(3071, 0.827451, 0.658824, 1)
+
+        alphaChannelFunc.AddPoint(-3024, 0.0)
+        alphaChannelFunc.AddPoint(-77, 0.0)
+        alphaChannelFunc.AddPoint(94, 0.29)
+        alphaChannelFunc.AddPoint(179, 0.55)
+        alphaChannelFunc.AddPoint(260, 0.84)
+        alphaChannelFunc.AddPoint(3071, 0.875)
+
+        volumeProperty.SetScalarOpacity(alphaChannelFunc)
+        volumeProperty.SetColor(colorFunc)
+        volumeProperty.ShadeOn()
+
+        volume.SetMapper(volumeMapper)
+        volume.SetProperty(volumeProperty)
+        render.AddVolume(volume)
+
+        renWinInteract.Initialize()
+        renWinInteract.pack( fill='both', expand=1)
+        renWinInteract.Start()
+        renWindow.Render()
+
+        ### Choosing the Tissue Colour
+        tissueColor = Button(leftFrame,text="Tissue Colour", bg="orange",command= lambda:TissueColor(render,renWindow))
+        
+        
+        #Save Output Option
+        filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+        filemenu.add_separator()
+        #root.update()
+        #######################################################
+        ######################################################
+
+
+### Exit Option
+filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
+##############################################################
+#root.after(1000,check)
 root.mainloop()
 
 
