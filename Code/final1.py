@@ -148,6 +148,9 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
     print partNumber
     sys.stdout.flush()
 
+    print opacity
+    sys.stdout.flush()
+
     if partNumber != -999:
         color = askcolor(color="#6B7722",title="Foreground Color")
         color = color[0]
@@ -203,30 +206,33 @@ def HeartDisplay():
         v= StringVar() # stores the values of the textBox
         sliderVal = IntVar() # stores the value from the slider variable
         
+
         v.set("-999")
+        Label(leftFrame,text="Tissue Number: ").grid(row=row,column=0,sticky=W,pady =10)
         ### Choosing a Tissue Number 
-        Tissue = Entry(leftFrame,textvariable=v)
-        Tissue.grid(row=row,column=0,sticky=W,pady=10,padx=10)
+        Tissue = Entry(leftFrame,textvariable=v,width=5)
+        Tissue.grid(row=row,column=1,sticky=W,pady=10,padx=1)
         
         #Slider for setting opacity
-        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
+        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx =5)
         opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL)
         opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
         tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),opacity_slider.get(),colorFunc,alphaChannelFunc,renWindow))
-        tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
+        tissueColor.grid(row=row,column=4,sticky=W,pady = 10, padx = 10)
         
         ### row = row + 1
         v1= StringVar()
         v1.set("-999")
         
-        delete_part = Entry(leftFrame,textvariable=v1)
-        delete_part.grid(row=row+1,column=0,sticky=W,pady=10,padx=10)
+        Label(leftFrame,text="Tissue Number: ").grid(row=row+1,column=0,sticky=W,pady =10)
+        delete_part = Entry(leftFrame,textvariable=v1,width=5)
+        delete_part.grid(row=row+1,column=1,sticky=W,pady=10,padx=1)
 
-        delete_color = Button(leftFrame,text="Remove Colour",command=lambda: DeleteColorFunction(int(v1.get())))
-        delete_color.grid(row=row+1,column=1,sticky=W,pady=10,padx=10)
+        delete_color = Button(leftFrame,text="Remove Colour",bg="red",command=lambda: DeleteColorFunction(int(v1.get())))
+        delete_color.grid(row=row+1,column=2,sticky=W,pady=10,padx=10)
         
         sliderVal.set(100)
         
