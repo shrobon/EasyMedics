@@ -86,5 +86,5 @@ def FgColor(actor,renWindow):
     print color
     sys.stdout.flush()
 
-def TissueColor(render,renWindow):
-    pass 
+
+

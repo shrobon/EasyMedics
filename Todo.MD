@@ -11,3 +11,6 @@
 
 Notes: 
 - If folder is selected let us assume Volume Rendering (Later use RadioButtons)
+
+Problems: 
+- Problem of overlap if one project is Opened Before another is closed 
