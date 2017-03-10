@@ -178,32 +178,37 @@ def DeleteColorFunction(part):
             color_array.pop(index)
             # Now we have to return these updated values for re-rendering -->Pass these to a function
     
-def TissueOpacity():
+def TissueOpacity(slider_val,part):
     #This function is called when the tissue opacity slider is moved
     #Opacity will be updated in realtime
-    pass
+    #pass
+    if part != -999:
+        print slider_val
+        sys.stdout.flush()
+    else:
+        #Show an error dialog :: Select part number first
+        showerror("Error", "Error: Select a tissue number first, and then try again ..")
+        
 
 def HeartDisplay():
     if file !="":
         volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
-        v= StringVar()
+        v= StringVar() # stores the values of the textBox
+        sliderVal = IntVar() # stores the value from the slider variable
+        
         v.set("-999")
         ### Choosing a Tissue Number 
         Tissue = Entry(leftFrame,textvariable=v)
         Tissue.grid(row=row,column=0,sticky=W,pady=10,padx=10)
         
-        #Slider for setting opacity
-        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
-        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL,command=lambda: TissueOpacity)
-        opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
+
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
         tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
         
-        #row = row + 1
-
+        ### row = row + 1
         v1= StringVar()
         v1.set("-999")
         
@@ -212,6 +217,13 @@ def HeartDisplay():
 
         delete_color = Button(leftFrame,text="Remove Colour",command=lambda: DeleteColorFunction(int(v1.get())))
         delete_color.grid(row=row+1,column=1,sticky=W,pady=10,padx=10)
+        
+        sliderVal.set(100)
+        
+        #Slider for setting opacity
+        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
+        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL,variable=sliderVal,command=lambda: TissueOpacity(sliderVal.get(),int(v1.get())) )
+        opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
 
         '''
         colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
