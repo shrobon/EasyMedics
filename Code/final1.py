@@ -166,6 +166,9 @@ def TissueColor(partNumber,colorFunc,renWindow):
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
 
+
+
+
 def DeleteColorFunction(part):
     if part != -999:
         # if it is 999 means that no value has been set
@@ -178,6 +181,8 @@ def DeleteColorFunction(part):
             color_array.pop(index)
             # Now we have to return these updated values for re-rendering -->Pass these to a function
     
+
+
 def TissueOpacity(slider_val,part):
     #This function is called when the tissue opacity slider is moved
     #Opacity will be updated in realtime
@@ -205,7 +210,7 @@ def HeartDisplay():
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
-        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
+        tissueColor = Button(leftFrame,text="Colour", bg="orange")
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
         
         ### row = row + 1
@@ -222,8 +227,10 @@ def HeartDisplay():
         
         #Slider for setting opacity
         Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
-        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL,variable=sliderVal,command=lambda: TissueOpacity(sliderVal.get(),int(v1.get())) )
+        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL)
         opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
+
+        Button(text="ADD",bg="red",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
 
         '''
         colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
