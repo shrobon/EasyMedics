@@ -1,6 +1,2 @@
-class cow:
-    def __init__(self):
-        self.a=10
-
-a = cow()
-print eval("a.a")
+a= [1,2,3,4]
+print a.index(4)

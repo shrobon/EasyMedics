@@ -1,3 +1,5 @@
+# __Author__ : Shrobon Biswas
+# __Start_Date__ : 1/3/2017
 from __future__ import division
 import sys
 if sys.hexversion < 0x03000000:
@@ -152,17 +154,34 @@ def TissueColor(partNumber,colorFunc,renWindow):
         g = float("{0:.2f}".format(g/255))
         b = float("{0:.2f}".format(b/255))
         colorFunc.AddRGBPoint(partNumber,r, g, b)
-        rgbValue = [r,g,b]
-        color_array.append(rgbValue)
-        parts_array.append(partNumber)
+        if partNumber in parts_array:
+            # if part is already in parts array then no need to display
+            pass
+        else:
+            rgbValue = [r,g,b]
+            color_array.append(rgbValue)
+            parts_array.append(partNumber)
 
     else:
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
 
 def DeleteColorFunction(part):
-    if part == -999:
-        pass
+    if part != -999:
+        # if it is 999 means that no value has been set
+        # Test Case 1 : if the part has been added firstly or not
+        if part in parts_array:
+            #Yes : The part has been previously added
+            #We need to remove the part and the colour values associated with it 
+            index = parts_array.index(part)
+            parts_array.pop(index)
+            color_array.pop(index)
+            # Now we have to return these updated values for re-rendering -->Pass these to a function
+    
+def TissueOpacity():
+    #This function is called when the tissue opacity slider is moved
+    #Opacity will be updated in realtime
+    pass
 
 def HeartDisplay():
     if file !="":
@@ -173,9 +192,14 @@ def HeartDisplay():
         Tissue = Entry(leftFrame,textvariable=v)
         Tissue.grid(row=row,column=0,sticky=W,pady=10,padx=10)
         
+        #Slider for setting opacity
+        Label(leftFrame,text="Opacity: ").grid(row=row,column=2,sticky=W,pady = 10, padx = 10)
+        opacity_slider = Scale(leftFrame, from_=0, to=100, orient=HORIZONTAL,command=lambda: TissueOpacity)
+        opacity_slider.grid(row=row,column=3,sticky=W,pady = 10, padx = 10)
+
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
-        tissueColor = Button(leftFrame,text="Tissue Colour", bg="orange",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
+        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),colorFunc,renWindow))
         tissueColor.grid(row=row,column=1,sticky=W,pady = 10, padx = 10)
         
         #row = row + 1
