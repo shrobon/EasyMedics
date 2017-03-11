@@ -24,6 +24,7 @@ saveFileName = None  # user-given name to save the VTK produced output with JPEG
 partNumber = -999 # Contains the tissue number for MRI / CT Dataset
 color_array = []
 parts_array = []
+opacity_array = [] # stores the user selected opacity value for a specific tissue 
 
 actor = None
 render = None 
@@ -160,12 +161,18 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
         b = float("{0:.2f}".format(b/255))
         colorFunc.AddRGBPoint(partNumber,r, g, b)
         if partNumber in parts_array:
-            # if part is already in parts array then no need to display
-            pass
+            # if part is already in parts array then no need to add to array:: Modify the array elements
+            index = parts_array.index(partNumber)
+            # change tissue color , opacity , at the obtained index
+            color_array[index] = [r,g,b] #These are the new rgb VALUES
+            opacity_array[index] = opacity
+
+            
         else:
             rgbValue = [r,g,b]
             color_array.append(rgbValue)
             parts_array.append(partNumber)
+            opacity_array.append(opacity)
 
     else:
         #Show an error dialog :: Select part number first
@@ -187,17 +194,6 @@ def DeleteColorFunction(part):
             # Now we have to return these updated values for re-rendering -->Pass these to a function
     
 
-
-def TissueOpacity(slider_val,part):
-    #This function is called when the tissue opacity slider is moved
-    #Opacity will be updated in realtime
-    #pass
-    if part != -999:
-        print slider_val
-        sys.stdout.flush()
-    else:
-        #Show an error dialog :: Select part number first
-        showerror("Error", "Error: Select a tissue number first, and then try again ..")
         
 
 def HeartDisplay():
