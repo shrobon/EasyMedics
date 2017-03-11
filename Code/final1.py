@@ -30,6 +30,12 @@ actor = None
 render = None 
 renWindow = None
 renWinInteract = None 
+
+volumeMapper = None 
+volume = None 
+colorFunc= None 
+alphaChannelFunc = None 
+volumeProperty = None 
 ############################################
 
 root = Tk()
@@ -196,7 +202,9 @@ def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFu
         # adding the color values
         colorFunc.AddRGBPoint(part,r,g,b)
         #adding the opacity values
-        alphaChannelFunc.AddPoint(part,0)
+        alphaChannelFunc.AddPoint(part,o)
+
+        
 
 
 
