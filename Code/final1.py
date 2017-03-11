@@ -149,7 +149,7 @@ def CubeDisplay():
 
 
 
-def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
+def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     # This is a colout picker for tissue
     partNumber = int(partNumber)
     print partNumber
@@ -182,14 +182,14 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
             opacity_array.append(opacity)
     
         #So now send the acquired arrays for rendering
-        RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc) 
+        RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc  ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow) 
 
     else:
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
 
 
-def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc):
+def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     #loop over the total number of Tissues in Tissues array and add Color and Opacity
     for i in range(0,len(parts_array)):
         part = parts_array[i]
@@ -204,12 +204,26 @@ def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFu
         #adding the opacity values
         alphaChannelFunc.AddPoint(part,o)
 
+    
+    volumeProperty.SetScalarOpacity(alphaChannelFunc)
+    volumeProperty.SetColor(colorFunc)
+    volumeProperty.ShadeOn()
+
+    volume.SetMapper(volumeMapper)
+    volume.SetProperty(volumeProperty)
+    render.AddVolume(volume)
+
+    renWinInteract.Initialize()
+    renWinInteract.pack( fill='both', expand=1)
+    renWinInteract.Start()
+    renWindow.Render()
+
         
 
 
 
 
-def DeleteColorFunction(part):
+def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     if part != -999:
         # if it is 999 means that no value has been set
         # Test Case 1 : if the part has been added firstly or not
@@ -219,8 +233,10 @@ def DeleteColorFunction(part):
             index = parts_array.index(part)
             parts_array.pop(index)
             color_array.pop(index)
+            opacity_array.pop(index)
             # Now we have to return these updated values for re-rendering -->Pass these to a function
-    
+            RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
+
 
         
 
@@ -244,7 +260,7 @@ def HeartDisplay():
 
         ### Choosing the Tissue Colour
         partNumber = int(v.get())
-        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),opacity_slider.get(),colorFunc,alphaChannelFunc,renWindow))
+        tissueColor = Button(leftFrame,text="Colour", bg="orange",command= lambda:TissueColor(int(v.get()),opacity_slider.get(),colorFunc,alphaChannelFunc  ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
         tissueColor.grid(row=row,column=4,sticky=W,pady = 10, padx = 10)
         
         ### row = row + 1
@@ -255,7 +271,7 @@ def HeartDisplay():
         delete_part = Entry(leftFrame,textvariable=v1,width=5)
         delete_part.grid(row=row+1,column=1,sticky=W,pady=10,padx=1)
 
-        delete_color = Button(leftFrame,text="Remove Colour",bg="red",command=lambda: DeleteColorFunction(int(v1.get())))
+        delete_color = Button(leftFrame,text="Remove Colour",bg="red",command=lambda: DeleteColorFunction(int(v1.get()),colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
         delete_color.grid(row=row+1,column=2,sticky=W,pady=10,padx=10)
         
         sliderVal.set(100)
