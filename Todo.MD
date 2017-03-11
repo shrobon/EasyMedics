@@ -6,7 +6,7 @@
     select reader based on the filetype
 6. Radio Button Cube - Done
 7. Heart Radio Button - Work In Progress
-    - heart is rendering (fixed about an axis)
+    - heart is rendering (fixed about an axis) : Need to  reset camera 
     - Changing parts with slider is left 
 
 Notes: 

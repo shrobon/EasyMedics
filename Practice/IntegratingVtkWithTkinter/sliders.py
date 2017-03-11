@@ -1,8 +1,10 @@
+import sys
 from Tkinter import *
 
 def show_values():
     print (w1.get(), w2.get())
-
+    sys.stdout.flush()
+    
 master = Tk()
 w1 = Scale(master, from_=0, to=42)
 w1.pack()
