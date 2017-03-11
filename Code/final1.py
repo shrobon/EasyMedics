@@ -149,6 +149,7 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
     print partNumber
     sys.stdout.flush()
 
+    opacity = float("{0:.2f}".format(opacity/100))
     print opacity
     sys.stdout.flush()
 
@@ -159,7 +160,7 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
         r = float("{0:.2f}".format(r/255))
         g = float("{0:.2f}".format(g/255))
         b = float("{0:.2f}".format(b/255))
-        colorFunc.AddRGBPoint(partNumber,r, g, b)
+        #colorFunc.AddRGBPoint(partNumber,r, g, b)
         if partNumber in parts_array:
             # if part is already in parts array then no need to add to array:: Modify the array elements
             index = parts_array.index(partNumber)
@@ -173,10 +174,29 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,renWindow):
             color_array.append(rgbValue)
             parts_array.append(partNumber)
             opacity_array.append(opacity)
+    
+        #So now send the acquired arrays for rendering
+        RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc) 
 
     else:
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
+
+
+def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc):
+    #loop over the total number of Tissues in Tissues array and add Color and Opacity
+    for i in range(0,len(parts_array)):
+        part = parts_array[i]
+        color = color_array[i] # this is in form [r,g,b]
+        r = color[0]
+        g = color[1]
+        b = color[2]
+
+        o = opacity_array[i] # this contains the opacity values
+        # adding the color values
+        colorFunc.AddRGBPoint(part,r,g,b)
+        #adding the opacity values
+        alphaChannelFunc.AddPoint(part,0)
 
 
 
@@ -246,13 +266,14 @@ def HeartDisplay():
         colorFunc.AddRGBPoint(260, 0.615686, 0, 0)
         colorFunc.AddRGBPoint(3071, 0.827451, 0.658824, 1)
         '''
-
+        '''
         alphaChannelFunc.AddPoint(-3024, 0.0)
         alphaChannelFunc.AddPoint(-77, 0.0)
         alphaChannelFunc.AddPoint(94, 0.29)
         alphaChannelFunc.AddPoint(179, 0.55)
         alphaChannelFunc.AddPoint(260, 0.84)
         alphaChannelFunc.AddPoint(3071, 0.875)
+        '''
 
         volumeProperty.SetScalarOpacity(alphaChannelFunc)
         volumeProperty.SetColor(colorFunc)
