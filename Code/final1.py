@@ -151,6 +151,11 @@ def CubeDisplay():
 
 def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     # This is a colout picker for tissue
+
+    global parts_array
+    global opacity_array
+    global color_array
+
     partNumber = int(partNumber)
     #print partNumber
     #sys.stdout.flush()
@@ -182,18 +187,24 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,vol
             opacity_array.append(opacity)
     
         #So now send the acquired arrays for rendering
-        RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc  ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow) 
+        RenderTissues(colorFunc,alphaChannelFunc  ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow) 
 
     else:
         #Show an error dialog :: Select part number first
         showerror("Error", "Error: Select a tissue number first, and then try again ..")
 
 
-def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
+def RenderTissues(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     #loop over the total number of Tissues in Tissues array and add Color and Opacity
-    #global parts_array
-    #global opacity_array
-    #global color_array
+    global parts_array
+    global opacity_array
+    global color_array
+
+    #### Description : For Realtime addition and deletion of ColorFunction Points#####################
+    colorFunc.RemoveAllPoints()
+    alphaChannelFunc.RemoveAllPoints()
+    ##################################################################################################
+    
     print "Length of parts array is = %d"%len(parts_array)
     sys.stdout.flush()
     for i in range(0,len(parts_array)):
@@ -247,9 +258,9 @@ def RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFu
 
 
 def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
-    #global parts_array
-    #global opacity_array
-    #global color_array
+    global parts_array
+    global opacity_array
+    global color_array
     print "Entered Remove Color "
     sys.stdout.flush()
     
@@ -268,7 +279,7 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
             color_array.pop(index)
             opacity_array.pop(index)
             # Now we have to return these updated values for re-rendering -->Pass these to a function
-            RenderTissues(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
+            RenderTissues(colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
 
 
         
