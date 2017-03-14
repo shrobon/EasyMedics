@@ -25,6 +25,8 @@ partNumber = -999 # Contains the tissue number for MRI / CT Dataset
 color_array = []
 parts_array = []
 opacity_array = [] # stores the user selected opacity value for a specific tissue 
+action_log_messages = [] # Stores the messages in the Action Logs
+# Whenever a new action is performed, the action is added to the beginning of the list
 
 actor = None
 render = None 
@@ -155,6 +157,8 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,vol
     global parts_array
     global opacity_array
     global color_array
+    global action_log_messages
+
 
     partNumber = int(partNumber)
     #print partNumber
@@ -178,13 +182,18 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,vol
             # change tissue color , opacity , at the obtained index
             color_array[index] = [r,g,b] #These are the new rgb VALUES
             opacity_array[index] = opacity
-
+            
             
         else:
             rgbValue = [r,g,b]
             color_array.append(rgbValue)
             parts_array.append(partNumber)
             opacity_array.append(opacity)
+
+            ##### Inserting a log entry to action_log_messages   ##########
+            temp = "Part #: %d R:%d,G:%d,B:%d,Opacity:%d\n"%(partNumber,r,g,b,opacity)
+            action_log_messages.insert(0,temp)
+            ###############################################################
     
         #So now send the acquired arrays for rendering
         RenderTissues(colorFunc,alphaChannelFunc  ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow) 
@@ -261,7 +270,8 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
     global parts_array
     global opacity_array
     global color_array
-    print "Entered Remove Color "
+    global action_log_messages
+    #print "Entered Remove Color "
     sys.stdout.flush()
     
     if part != -999:
@@ -269,8 +279,8 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
         # Test Case 1 : if the part has been added firstly or not
         #print "part selected is =%d"%part
         if part in parts_array:
-            print "Entered Parts Array"
-            sys.stdout.flush()
+            #print "Entered Parts Array"
+            #sys.stdout.flush()
             #Yes : The part has been previously added
             #We need to remove the part and the colour values associated with it 
             index = parts_array.index(part)
@@ -278,6 +288,12 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
             parts_array.pop(index)
             color_array.pop(index)
             opacity_array.pop(index)
+
+            ## Appending an entry into the Action Logs ##########################
+            temp = "Part #: %d R:%d,G:%d,B:%d,Opacity:%d \n"%(part,r,g,b,opacity)
+            action_log_messages.insert(0,temp)
+            #####################################################################
+
             # Now we have to return these updated values for re-rendering -->Pass these to a function
             RenderTissues(colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
 
@@ -285,6 +301,7 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
         
 
 def HeartDisplay():
+    global action_log_messages
     if file !="":
         volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
         v= StringVar() # stores the values of the textBox
@@ -322,13 +339,14 @@ def HeartDisplay():
         ## A list of the actions performed :: Action Logs
         Label(leftFrame,text="Action Logs",fg="black",bg="orange").grid(row = row+2,column=0,sticky=W,pady=10,padx=10)
         scrollbar = Scrollbar(leftFrame)
-        scrollbar.grid(row = row+3,column=4,sticky=W,pady=10,padx=10)
+        scrollbar.grid(row = row+3,column=3,sticky=W,pady=10,padx=10)
 
-        listbox = Text(leftFrame,height=10,width=35)
+        listbox = Text(leftFrame,height=10,width=45)
         listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
 
-        for i in range(100):
-            listbox.insert(END, "hello world .... Bye Bye world \n")
+        for i in range(len(action_log_messages)):
+            
+            listbox.insert(END,action_log_messages[i])
 
         listbox.config(yscrollcommand = scrollbar.set)
         scrollbar.config(command = listbox.yview)
