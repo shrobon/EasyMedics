@@ -319,6 +319,19 @@ def HeartDisplay():
         delete_color = Button(leftFrame,text="Remove Colour",bg="red",command=lambda: DeleteColorFunction(int(v1.get()),colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
         delete_color.grid(row=row+1,column=2,sticky=W,pady=10,padx=10)
         
+        ## A list of the actions performed :: Action Logs
+        Label(leftFrame,text="Action Logs",fg="black",bg="orange").grid(row = row+2,column=0,sticky=W,pady=10,padx=10)
+        scrollbar = Scrollbar(leftFrame)
+        scrollbar.grid(row = row+3,column=4,sticky=W,pady=10,padx=10)
+
+        listbox = Text(leftFrame,height=10,width=35)
+        listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
+
+        for i in range(100):
+            listbox.insert(END, "hello world .... Bye Bye world \n")
+
+        listbox.config(yscrollcommand = scrollbar.set)
+        scrollbar.config(command = listbox.yview)
 
 
         '''
