@@ -27,6 +27,7 @@ parts_array = []
 opacity_array = [] # stores the user selected opacity value for a specific tissue 
 action_log_messages = [] # Stores the messages in the Action Logs
 # Whenever a new action is performed, the action is added to the beginning of the list
+listbox = None 
 
 actor = None
 render = None 
@@ -158,7 +159,7 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,vol
     global opacity_array
     global color_array
     global action_log_messages
-
+    global listbox
 
     partNumber = int(partNumber)
     #print partNumber
@@ -191,8 +192,20 @@ def TissueColor(partNumber,opacity,colorFunc,alphaChannelFunc,volumeProperty,vol
             opacity_array.append(opacity)
 
             ##### Inserting a log entry to action_log_messages   ##########
-            temp = "Part #: %d R:%d,G:%d,B:%d,Opacity:%d\n"%(partNumber,r,g,b,opacity)
+            temp = "Added Part #:%d, R:%f,G:%f,B:%f,Opacity:%f\n"%(partNumber,r,g,b,opacity)
             action_log_messages.insert(0,temp)
+            
+            listbox = Text(leftFrame,height=10,width=45)
+            listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
+            scrollbar = Scrollbar(leftFrame)
+            scrollbar.grid(row = row+3,column=3,sticky=W,pady=10,padx=10)
+
+            for i in range(len(action_log_messages)):
+                
+                listbox.insert(END,action_log_messages[i])
+
+            listbox.config(yscrollcommand = scrollbar.set)
+            scrollbar.config(command = listbox.yview)
             ###############################################################
     
         #So now send the acquired arrays for rendering
@@ -289,10 +302,22 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
             color_array.pop(index)
             opacity_array.pop(index)
 
-            ## Appending an entry into the Action Logs ##########################
-            temp = "Part #: %d R:%d,G:%d,B:%d,Opacity:%d \n"%(part,r,g,b,opacity)
+            ##### Inserting a log entry to action_log_messages   ##########
+            temp = "Deleted Part #:%d\n"%(part)
             action_log_messages.insert(0,temp)
-            #####################################################################
+            
+            listbox = Text(leftFrame,height=10,width=45)
+            listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
+            scrollbar = Scrollbar(leftFrame)
+            scrollbar.grid(row = row+3,column=3,sticky=W,pady=10,padx=10)
+
+            for i in range(len(action_log_messages)):
+                
+                listbox.insert(END,action_log_messages[i])
+
+            listbox.config(yscrollcommand = scrollbar.set)
+            scrollbar.config(command = listbox.yview)
+            ###############################################################
 
             # Now we have to return these updated values for re-rendering -->Pass these to a function
             RenderTissues(colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
@@ -302,6 +327,7 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
 
 def HeartDisplay():
     global action_log_messages
+    global listbox
     if file !="":
         volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
         v= StringVar() # stores the values of the textBox
