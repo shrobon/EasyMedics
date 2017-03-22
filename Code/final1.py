@@ -28,6 +28,8 @@ opacity_array = [] # stores the user selected opacity value for a specific tissu
 action_log_messages = [] # Stores the messages in the Action Logs
 # Whenever a new action is performed, the action is added to the beginning of the list
 listbox = None 
+row = 0 # Keeps track of the UI-element rows 
+off = 0 
 
 actor = None
 render = None 
@@ -107,16 +109,20 @@ def CheckRadioChoice():
 
 
 row = 0
-for text,val in projects:
-    x = Radiobutton(leftFrame,
-    text=text,
-    padx = 20,
-    variable = v,
-    command=CheckRadioChoice,
-    value= val)
-    x.grid(row=row,column=0,sticky=W)
-    row = row + 1
-##################################################
+def check(): 
+    ## This part is not helping for the UI overlap :: root.update is adding extra performance issues
+    if off == 0: 
+        global row 
+        for text,val in projects:
+            x = Radiobutton(leftFrame,
+            text=text,
+            padx = 20,
+            variable = v,
+            command=CheckRadioChoice,
+            value= val)
+            x.grid(row=row,column=0,sticky=W)
+            row = row + 1
+        ##################################################
 
 
 def CubeDisplay():
@@ -269,10 +275,8 @@ def RenderTissues(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,
     render.AddVolume(volume)
     render.ResetCamera()
 
-    #renWinInteract.Initialize()
-    #renWinInteract.pack( fill='both', expand=1)
-    #renWinInteract.Start()
     renWindow.Render()
+    #volume.Modified()
 
         
 
@@ -377,24 +381,6 @@ def HeartDisplay():
         listbox.config(yscrollcommand = scrollbar.set)
         scrollbar.config(command = listbox.yview)
 
-
-        '''
-        colorFunc.AddRGBPoint(-3024, 0.0, 0.0, 0.0)
-        colorFunc.AddRGBPoint(-77, 0.54902, 0.25098, 0.14902)
-        colorFunc.AddRGBPoint(94, 0.882353, 0.603922, 0.290196)
-        colorFunc.AddRGBPoint(179, 1, 0.937033, 0.954531)
-        colorFunc.AddRGBPoint(260, 0.615686, 0, 0)
-        colorFunc.AddRGBPoint(3071, 0.827451, 0.658824, 1)
-        '''
-        '''
-        alphaChannelFunc.AddPoint(-3024, 0.0)
-        alphaChannelFunc.AddPoint(-77, 0.0)
-        alphaChannelFunc.AddPoint(94, 0.29)
-        alphaChannelFunc.AddPoint(179, 0.55)
-        alphaChannelFunc.AddPoint(260, 0.84)
-        alphaChannelFunc.AddPoint(3071, 0.875)
-        '''
-
         volumeProperty.SetScalarOpacity(alphaChannelFunc)
         volumeProperty.SetColor(colorFunc)
         volumeProperty.ShadeOn()
@@ -408,8 +394,6 @@ def HeartDisplay():
         renWinInteract.pack( fill='both', expand=1)
         renWinInteract.Start()
         renWindow.Render()
-
-
         
         #Save Output Option
         filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
@@ -422,7 +406,7 @@ def HeartDisplay():
 ### Exit Option
 filemenu.add_command(label= "Exit" , command = lambda: Quit(root))
 ##############################################################
-#root.after(1000,check)
+root.after(1000,check)
 root.mainloop()
 
 
