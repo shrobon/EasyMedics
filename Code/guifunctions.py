@@ -9,11 +9,11 @@ import vtk
 
 def OpenFile():
     # To open a file
-    global file 
+    global file
     file = askopenfilename()
     print file
     #To flush out the print output buffers
-    sys.stdout.flush() 
+    sys.stdout.flush()
 
 
 def OpenFolder():
@@ -29,6 +29,35 @@ def SaveOutput(renWindow):
     print saveFileName
     sys.stdout.flush()
     WriteAsJPEG(saveFileName,renWindow)
+
+
+def SaveValues(parts_array,color_array,opacity_array):
+    #This function will save all the values of
+    #1. Color transfer function
+    #2. Opacity transfer function
+    #3. Save all values to a file "values.txt"
+    f = open("values.txt","w")
+
+    # Formating the arrays as Comma Separated Strings ###########
+    parts = str(parts_array)[1:-1]
+    color = str(color_array)[1:-1].replace("[","")
+    color = color.replace("]","")
+    opacity = str(opacity_array)[1:-1]
+
+    #### performing the write operation
+    f.write(parts+"\n")
+    f.write(color+"\n")
+    f.write(opacity+"\n")
+
+    #closing the file pointer
+    f.close()
+
+
+
+
+
+
+
 
 def WriteAsJPEG(filename,renderingWindow):
 
@@ -56,11 +85,11 @@ def BgColor(render,renWindow):
     color = askcolor(color="#6B7722",title="Background Color")
     #fetching the rgb color tuple and mapping it in range 0-1
     color = color[0]
-    (r,g,b) = color # RGB tuple 
+    (r,g,b) = color # RGB tuple
     r = float("{0:.2f}".format(r/255))
     g = float("{0:.2f}".format(g/255))
     b = float("{0:.2f}".format(b/255))
-    print r 
+    print r
     sys.stdout.flush()
 
     # changing color of background
@@ -74,7 +103,7 @@ def FgColor(actor,renWindow):
     color = askcolor(color="#6B7722",title="Foreground Color")
     #fetching the rgb color tuple and mapping it in range 0-1
     color = color[0]
-    (r,g,b) = color # RGB tuple 
+    (r,g,b) = color # RGB tuple
     r = float("{0:.2f}".format(r/255))
     g = float("{0:.2f}".format(g/255))
     b = float("{0:.2f}".format(b/255))
@@ -85,6 +114,3 @@ def FgColor(actor,renWindow):
     renWindow.Render()
     print color
     sys.stdout.flush()
-
-
-

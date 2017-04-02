@@ -373,6 +373,11 @@ def HeartDisplay():
         delete_color = Button(leftFrame,text="Remove Colour",bg="red",command=lambda: DeleteColorFunction(int(v1.get()),colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
         delete_color.grid(row=row+1,column=2,sticky=W,pady=10,padx=10)
 
+        ## Implementing the import color functions feature ##############
+        import_values = Button(leftFrame,text="Import values",bg="green")
+        import_values.grid(row=row+1,column=3,sticky=W,pady=10,padx=10)
+        ####################################################################
+
         ## A list of the actions performed :: Action Logs
         Label(leftFrame,text="Action Logs",fg="black",bg="orange").grid(row = row+2,column=0,sticky=W,pady=10,padx=10)
         scrollbar = Scrollbar(leftFrame)
@@ -380,6 +385,7 @@ def HeartDisplay():
 
         listbox = Text(leftFrame,height=10,width=45)
         listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
+
 
         for i in range(len(action_log_messages)):
 
@@ -404,7 +410,13 @@ def HeartDisplay():
 
         #Save Output Option
         filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+        filemenu.add_command(label="Save Values",command=lambda: SaveValues(parts_array,color_array,opacity_array))
         filemenu.add_separator()
+
+
+
+
+
         #root.update()
         #######################################################
         ######################################################
