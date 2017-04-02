@@ -59,6 +59,9 @@ def SaveValues(parts_array,color_array,opacity_array):
 
 
 
+
+
+
 def WriteAsJPEG(filename,renderingWindow):
 
     ##### Section for the JPEG Writer ####################
