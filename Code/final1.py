@@ -332,35 +332,44 @@ def DeleteColorFunction(part,colorFunc,alphaChannelFunc ,volumeProperty,volumeMa
             RenderTissues(colorFunc,alphaChannelFunc ,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
 
 
-def ImportFunctions(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
+def ImportFunctions(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow):
     #This function will be used to import the values of the color and opacity transfer functions
     #It will open a file dialog for the user to select the file which he has saved previously
     #The values are mostly comma separate & also differnt type of values are on different lines :: So parsing will be easy
+    global parts_array
+    global color_array
+    global opacity_array
+
     xfile = askopenfilename()
     content = []
+    # Converting the parsed values into the expected format
     with open(xfile) as f:
         content = f.readlines()
 
     part = content[0].replace("\n","").split(',')
+    part = [float(i) for i in part]
     # parsing the color is slightly difficult since we have to deal with 3 values for 1 part
     color = content[1].replace("\n","").replace("[","").replace("]","").split(',')
+
     count = 0
     col = []
+
     for i in range(len(color)//3):
-         r = color[count]
-         g = color[count+1]
-         b = color[count+2]
+         r = float(color[count])
+         g = float(color[count+1])
+         b = float(color[count+2])
          count+=3
          temp = [r,g,b]
          col.append(temp)
     opacity = content[2].replace("\n","").split(',')
+    opacity = [float(i) for i in opacity]
 
     parts_array = part
     color_array = col
     opacity_array = opacity
     RenderTissues(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
 
-    # Converting the parsed values into the expected format
+
 
 
 def HeartDisplay():
@@ -406,7 +415,7 @@ def HeartDisplay():
         delete_color.grid(row=row+1,column=2,sticky=W,pady=10,padx=10)
 
         ## Implementing the import color functions feature ##############
-        import_values = Button(leftFrame,text="Import values",bg="green",command= lambda: ImportFunctions(parts_array,color_array,opacity_array,colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
+        import_values = Button(leftFrame,text="Import values",bg="green",command= lambda: ImportFunctions(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow))
         import_values.grid(row=row+1,column=3,sticky=W,pady=10,padx=10)
         ####################################################################
 
