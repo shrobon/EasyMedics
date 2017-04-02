@@ -1,8 +1,8 @@
 import vtk
 from vtk.tk.vtkTkRenderWindowInteractor import vtkTkRenderWindowInteractor
 
-def returnHeartObjects(root):
-    dataset_directory = r"..\Examples\CT"
+def returnHeartObjects(root,file):
+    dataset_directory = file
     # Read data
     reader = vtk.vtkDICOMImageReader()
     reader.SetDirectoryName(dataset_directory)
@@ -18,7 +18,7 @@ def returnHeartObjects(root):
 
 
     # Define volume mapper
-    volumeMapper = vtk.vtkSmartVolumeMapper()  
+    volumeMapper = vtk.vtkSmartVolumeMapper()
     volumeMapper.SetInputConnection(reader.GetOutputPort())
 
 
@@ -54,7 +54,7 @@ def returnHeartObjects(root):
     # Set the mapper and volume properties
     '''
     volume.SetMapper(volumeMapper)
-    volume.SetProperty(volumeProperty)  
+    volume.SetProperty(volumeProperty)
     '''
 
     # Add the volume to the renderer

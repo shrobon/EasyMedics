@@ -19,7 +19,6 @@ import heart
 
 ########## Global Variables ###############
 file  = ""  # contains the filename selected by the user
-directory = None # contains the path to dataset , selected by user
 saveFileName = None  # user-given name to save the VTK produced output with JPEGWRITER
 partNumber = -999 # Contains the tissue number for MRI / CT Dataset
 color_array = []
@@ -59,10 +58,14 @@ menu.add_cascade(label="File",menu=filemenu)
 ### File Menu
 
 ######## Open File
-def OpenFile():
+def OpenFile(flag):
     # This function is triggered when the user chooses to Open a file
     global file
-    file = askopenfilename()
+    if int(flag) == 0:
+        file = askopenfilename()
+    else:
+        file = askdirectory()
+
     print file
     #To flush out the print output buffers
     sys.stdout.flush()
@@ -79,9 +82,9 @@ def OpenFile():
         pass
 
 
-filemenu.add_command(label="Open File",command = lambda: OpenFile())
+filemenu.add_command(label="Open File",command = lambda: OpenFile(0)) # 0 stands for openFile
 ######## Open Folder
-filemenu.add_command(label="Open Folder",command= OpenFolder)
+filemenu.add_command(label="Open Folder",command= lambda: OpenFile(1)) # 1 stands for openFolder
 filemenu.add_separator()
 ######## Save Options
 #filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
@@ -337,7 +340,7 @@ def HeartDisplay():
     if file !="":
         global x
         x.destroy()
-        volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root)
+        volumeMapper,volume,render,renWindow,renWinInteract,colorFunc,alphaChannelFunc,volumeProperty = heart.returnHeartObjects(root,file)
         v= StringVar() # stores the values of the textBox
         sliderVal = IntVar() # stores the value from the slider variable
 
