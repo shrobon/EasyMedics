@@ -66,7 +66,7 @@ def OpenFile(flag):
     else:
         file = askdirectory()
 
-    print file
+    #print file
     #To flush out the print output buffers
     sys.stdout.flush()
     selected_radio_value = v.get()
@@ -107,7 +107,7 @@ projects = [
 ]
 
 def CheckRadioChoice():
-    print v.get() #displays the users radio button choice
+    #print v.get() #displays the users radio button choice
     sys.stdout.flush()
 
 
@@ -238,8 +238,8 @@ def RenderTissues(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,
     alphaChannelFunc.RemoveAllPoints()
     ##################################################################################################
 
-    print "Length of parts array is = %d"%len(parts_array)
-    sys.stdout.flush()
+    #print "Length of parts array is = %d"%len(parts_array)
+    #sys.stdout.flush()
     for i in range(0,len(parts_array)):
         part = parts_array[i]
         color = color_array[i] # this is in form [r,g,b]
