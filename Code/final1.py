@@ -346,6 +346,7 @@ def ImportFunctions(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,rende
     with open(xfile) as f:
         content = f.readlines()
 
+    print content[0]
     part = content[0].replace("\n","").split(',')
     part = [float(i) for i in part]
     # parsing the color is slightly difficult since we have to deal with 3 values for 1 part
