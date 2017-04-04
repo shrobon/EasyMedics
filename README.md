@@ -1,4 +1,4 @@
-#EasyMedics  
+# EasyMedics 
 An easy to use Medical Image Analysis Tool.
 
 1. Support Volume Rendering
@@ -10,10 +10,10 @@ An easy to use Medical Image Analysis Tool.
 
 This utility can be extended, to support different types of Images and Volumetric datasets.
 
-#Want to contribute ?
+# Want to contribute ?
 There's still a lot of things that can be improved.
 Looking for some ideas ?
-See the Todo.MD, for the current bugs and features currently in pipeline 
+See the Todo.MD, for the current bugs and features currently in pipeline
 - Fork the repo and extend this utility your own custom features.
 - Send me a pull request
 
