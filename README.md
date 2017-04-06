@@ -1,6 +1,18 @@
-# EasyMedics 
+# EasyMedics
 An easy to use Medical Image Analysis Tool.
 
+![alt tag](annotated.png)
+
+## Try out your own colour & opacity transformation functions
+### (a)
+![alt tag](heart.PNG)
+
+### (b)
+![alt tag](a.JPEG)
+
+* Pictures (a) and (b) were obtained using different sets of colour and opacity transformation functions *
+
+# Features
 1. Support Volume Rendering
 2. add/modify color-transfer functions
 3. add/modify opacity transfer functions
@@ -9,6 +21,9 @@ An easy to use Medical Image Analysis Tool.
 6. Can load up color/opacity transfer functions from a file
 
 This utility can be extended, to support different types of Images and Volumetric datasets.
+
+# Format for saving the transformation functions, opacity & colours
+![alt tag](values.png)
 
 # Want to contribute ?
 There's still a lot of things that can be improved.
