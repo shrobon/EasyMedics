@@ -23,7 +23,7 @@ An easy to use Medical Image Analysis Tool.
 This utility can be extended, to support different types of Images and Volumetric datasets.
 
 # Format for saving the transformation functions, opacity & colours
-![alt tag](values.png)
+![alt tag](values.PNG)
 
 # Want to contribute ?
 There's still a lot of things that can be improved.
