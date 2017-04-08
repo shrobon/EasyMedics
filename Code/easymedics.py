@@ -40,6 +40,7 @@ volume = None
 colorFunc= None
 alphaChannelFunc = None
 volumeProperty = None
+functionLogValues = []
 x = None # This is the radiobutton :: I will destroy this when i enter a project
 ############################################
 
@@ -155,7 +156,8 @@ def CubeDisplay():
 
 
         #Save Output Option
-        filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+        filemenu.add_command(label="Save as JPEG",command= lambda: SaveOutput(renWindow,"jpeg"))
+        filemenu.add_command(label="Save as PNG",command= lambda: SaveOutput(renWindow,"png"))
         filemenu.add_separator()
         #root.update()
         #######################################################
@@ -371,6 +373,31 @@ def ImportFunctions(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,rende
     RenderTissues(colorFunc,alphaChannelFunc,volumeProperty,volumeMapper,render,volume,renWinInteract,renWindow)
 
 
+def showFunctionValues():
+
+    for i in range(len(parts_array)):
+        part = parts_array[i]
+        opacity = opacity_array[i]
+        color = color_array[i]
+        r = color[0]
+        g = color[1]
+        b = color[2]
+        temp = "%d.) Part#:%d, R:%f,G:%f,B:%f,Opacity:%f\n"%(i,part,r,g,b,opacity)
+        functionLogValues.insert(0,temp)
+
+    listbox = Text(leftFrame,height=10,width=45)
+    listbox.grid(row = row+3,columnspan=3,sticky=W,pady=10,padx=10)
+    scrollbar = Scrollbar(leftFrame)
+    scrollbar.grid(row = row+3,column=3,sticky=W,pady=10,padx=10)
+
+
+    for i in range(len(functionLogValues)):
+
+        listbox.insert(END,functionLogValues[i])
+
+    listbox.config(yscrollcommand = scrollbar.set)
+    scrollbar.config(command = listbox.yview)
+
 
 
 def HeartDisplay():
@@ -422,6 +449,10 @@ def HeartDisplay():
 
         ## A list of the actions performed :: Action Logs
         Label(leftFrame,text="Action Logs",fg="black",bg="orange").grid(row = row+2,column=0,sticky=W,pady=10,padx=10)
+
+        ## This button will display the current color transformation functions in use in the logs ::
+        Button(leftFrame,text="Show function values",fg="black",bg="white",command= lambda:showFunctionValues()).grid(row = row+2,column=1,sticky=W,pady=10,padx=10)
+
         scrollbar = Scrollbar(leftFrame)
         scrollbar.grid(row = row+3,column=3,sticky=W,pady=10,padx=10)
 
@@ -450,8 +481,11 @@ def HeartDisplay():
         renWinInteract.Start()
         renWindow.Render()
 
+
+
         #Save Output Option
-        filemenu.add_command(label="Save",command= lambda: SaveOutput(renWindow))
+        filemenu.add_command(label="Save as JPEG",command= lambda: SaveOutput(renWindow,"jpeg"))
+        filemenu.add_command(label="Save as PNG",command= lambda: SaveOutput(renWindow,"png"))
         filemenu.add_command(label="Save Values",command=lambda: SaveValues(parts_array,color_array,opacity_array))
         filemenu.add_separator()
 

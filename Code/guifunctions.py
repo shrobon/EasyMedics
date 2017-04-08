@@ -23,12 +23,15 @@ def OpenFolder():
     print directory
     sys.stdout.flush()
 
-def SaveOutput(renWindow):
+def SaveOutput(renWindow,type):
     global saveFileName
     saveFileName = asksaveasfilename()
     print saveFileName
     sys.stdout.flush()
-    WriteAsJPEG(saveFileName,renWindow)
+    if type =="jpeg":
+        WriteAsJPEG(saveFileName,renWindow)
+    else:
+        WriteAsPNG(saveFileName,renWindow)
 
 
 def SaveValues(parts_array,color_array,opacity_array):
@@ -74,6 +77,23 @@ def WriteAsJPEG(filename,renderingWindow):
     jpegWriter.SetFileName(filename)
     jpegWriter.SetInputConnection(win2img.GetOutputPort())
     jpegWriter.Write()
+
+
+def WriteAsPNG(filename,renderingWindow):
+
+    ##### Section for the JPEG Writer ####################
+    win2img = vtk.vtkWindowToImageFilter()
+    win2img.SetInput(renderingWindow)
+    #win2img.SetMagnification(2)
+    win2img.Update()
+
+    pngWriter = vtk.vtkPNGWriter()
+    pngWriter.SetFileName(filename)
+    pngWriter.SetInputConnection(win2img.GetOutputPort())
+    pngWriter.Write()
+
+
+
 
 def Quit(root):
     answer = askquestion("Quit","Are you Sure ? Please Save your work",icon='warning')
