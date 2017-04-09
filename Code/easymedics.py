@@ -83,7 +83,7 @@ def OpenFile(flag):
         pass
 
 
-filemenu.add_command(label="Open File",command = lambda: OpenFile(0)) # 0 stands for openFile
+#filemenu.add_command(label="Open File",command = lambda: OpenFile(0)) # 0 stands for openFile
 ######## Open Folder
 filemenu.add_command(label="Open Folder",command= lambda: OpenFile(1)) # 1 stands for openFolder
 filemenu.add_separator()
