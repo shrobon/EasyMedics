@@ -18,7 +18,8 @@ def returnHeartObjects(root,file):
 
 
     # Define volume mapper
-    volumeMapper = vtk.vtkSmartVolumeMapper()
+    #volumeMapper = vtk.vtkSmartVolumeMapper()
+    volumeMapper = vtk.vtkGPUVolumeRayCastMapper()
     volumeMapper.SetInputConnection(reader.GetOutputPort())
 
 
