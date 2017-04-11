@@ -1,7 +1,7 @@
 # EasyMedics
 An easy to use Medical Image Analysis Tool.
 
-![alt tag](annotated1.png)
+![alt tag](annotated2.png)
 
 ## Try out your own colour & opacity transformation functions
 ### (a)
